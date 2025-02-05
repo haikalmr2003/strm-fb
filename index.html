@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontrol Livestream</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        input, button { padding: 10px; font-size: 16px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Kontrol Livestream</h1>
+    <label for="videoUrl">Masukkan URL Video Google Drive:</label>
+    <input type="text" id="videoUrl" placeholder="https://drive.google.com/file/d/FILE_ID/view">
+    <br><br>
+    <button onclick="startStreaming()">Mulai Livestream</button>
+    <p id="status"></p>
+
+    <script>
+        function startStreaming() {
+            const videoUrl = document.getElementById('videoUrl').value;
+            document.getElementById('status').innerText = "Memulai streaming...";
+
+            fetch('https://YOUR_GOOGLE_COLAB_URL/run', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ url: videoUrl })
+            })
+            .then(response => response.json())
+            .then(data => document.getElementById('status').innerText = data.message)
+            .catch(error => document.getElementById('status').innerText = "Gagal memulai streaming.");
+        }
+    </script>
+</body>
+</html>
